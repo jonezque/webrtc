@@ -9,17 +9,6 @@ import {
   processCandidates,
 } from "../init";
 
-const audio = {
-  echoCancellation: true,
-  noiseSuppression: true,
-  googNoiseSuppression: true,
-  googNoiseSuppression2: true,
-  autoGainControl: true,
-  googAutoGainControl: true,
-  googAutoGainControl2: true,
-  googHighpassFilter: true,
-} as any
-
 export const Channel = () => {
   const { id } = useParams();
   const [remote] = useState<MediaStream>(new MediaStream());
@@ -51,13 +40,14 @@ export const Channel = () => {
 
   useEffect(() => {
     navigator.mediaDevices
-      .getUserMedia({ video: true, audio })
+      .getUserMedia({ video: true, audio: { sampleRate: 44000, echoCancellation: true, noiseSuppression: true, autoGainControl: true,  } })
       .then((stream) => {
         localStream.current!.srcObject = stream;
         localStream.current!.muted = true;
         localStream.current!.volume = 0;
         remoteStream.current!.srcObject = remote;
-        remoteStream.current!.volume = 0.9;
+        remoteStream.current!.volume = 0;
+        remoteStream.current!.muted = true;
 
         const init = () =>
           setTimeout(() => {
