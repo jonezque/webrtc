@@ -8,21 +8,29 @@ export const configuration = {
   iceServers: [
     {
       urls: [
-          "stun:stun1.l.google.com:19302",
-          "stun:stun2.l.google.com:19302",
-          "stun:173.194.221.127:19302",
-          "stun:[2a00:1450:4010:c0a::7f]:19302"],
+        "stun:stun1.l.google.com:19302",
+        "stun:stun2.l.google.com:19302",
+        "stun:173.194.221.127:19302",
+        "stun:[2a00:1450:4010:c0a::7f]:19302",
+      ],
     },
   ],
   iceCandidatePoolSize: 10,
 };
 
-function registerPeerConnectionListeners(peerConnection: RTCPeerConnection, id: string, userId: string) {
-  peerConnection.addEventListener("icecandidate", ({ candidate }: RTCPeerConnectionIceEventInit) => {
-    if (candidate) {
-      ws.send(JSON.stringify({ type: 'candidate', id, userId, candidate }));
+function registerPeerConnectionListeners(
+  peerConnection: RTCPeerConnection,
+  id: string,
+  userId: string
+) {
+  peerConnection.addEventListener(
+    "icecandidate",
+    ({ candidate }: RTCPeerConnectionIceEventInit) => {
+      if (candidate) {
+        ws.send(JSON.stringify({ type: "candidate", id, userId, candidate }));
+      }
     }
-  });
+  );
 }
 
 export async function processOffer(
@@ -41,7 +49,9 @@ export async function processOffer(
     },
   };
 
-  ws.send(JSON.stringify({ type: 'answer', answer: roomWithAnswer, userId: id }));
+  ws.send(
+    JSON.stringify({ type: "answer", answer: roomWithAnswer, userId: id })
+  );
 }
 
 export async function processAnswer(
@@ -58,7 +68,9 @@ export async function processCandidates(
   data: any[],
   peerConnection: RTCPeerConnection
 ) {
-    data.forEach(json => peerConnection.addIceCandidate(new RTCIceCandidate(json)));
+  data.forEach((json) =>
+    peerConnection.addIceCandidate(new RTCIceCandidate(json))
+  );
 }
 
 export async function setConnection(
@@ -78,9 +90,9 @@ export async function setConnection(
     offer: peerConnection.localDescription,
     id,
     userId,
-    type: 'offer',
+    type: "offer",
   };
-  console.log('ws', ws.readyState);
+  console.log("ws", ws.readyState);
   ws.send(JSON.stringify(roomWithOffer));
 
   peerConnection.addEventListener("track", (event) => {

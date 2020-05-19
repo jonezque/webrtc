@@ -21,12 +21,15 @@ export const Offline = () => {
 
   useEffect(() => {
     navigator.mediaDevices
-      .getUserMedia({ video: true, audio: { echoCancellation: true, noiseSuppression: true,  } })
+      .getUserMedia({
+        video: true,
+        audio: { echoCancellation: true, noiseSuppression: true },
+      })
       .then((stream) => {
         videoRef.current!.srcObject = stream;
         videoRef.current!.volume = 0;
         videoRef.current!.muted = true;
-        const mediaRecorder = new MediaRecorder(stream, {type: "video/webm"});
+        const mediaRecorder = new MediaRecorder(stream, { type: "video/webm" });
         setRecorder(mediaRecorder);
         mediaRecorder.ondataavailable = function (evt: any) {
           setBlob([evt.data]);

@@ -1,6 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
-import { ws, configuration, processOffer, processAnswer, setConnection, processCandidates } from "../init";
+import {
+  ws,
+  configuration,
+  processOffer,
+  processAnswer,
+  setConnection,
+  processCandidates,
+} from "../init";
+
+const onClickHandler = () => {};
 
 export const Channel = () => {
   const { id } = useParams();
@@ -15,12 +24,11 @@ export const Channel = () => {
   useEffect(() => {
     const handler = (msg: MessageEvent) => {
       const { message, data } = JSON.parse(msg.data);
-      if (message === 'offer') {
+      if (message === "offer") {
         processOffer(data.offer, peerConnection, data.userId);
-      } else if (message === 'answer') {
+      } else if (message === "answer") {
         processAnswer(data.answer, peerConnection);
-      } else if (message === 'candidates') {
-
+      } else if (message === "candidates") {
         processCandidates(data, peerConnection);
       }
     };
@@ -39,11 +47,12 @@ export const Channel = () => {
         localStream.current!.srcObject = stream;
         remoteStream.current!.srcObject = remote;
 
-        const init = () => setTimeout(() => {
-          ws.readyState === 1 ?
-          setConnection(id, stream, remote, peerConnection)
-          : init()
-        }, 100);
+        const init = () =>
+          setTimeout(() => {
+            ws.readyState === 1
+              ? setConnection(id, stream, remote, peerConnection)
+              : init();
+          }, 100);
         init();
       })
       .catch((err) => console.warn(err));
@@ -51,6 +60,11 @@ export const Channel = () => {
 
   return (
     <div>
+      <button
+        onClick={() => navigator.clipboard.writeText(window.location.href)}
+      >
+        <b>{window.location.href}</b> - поделиться линком
+      </button>
       <video ref={localStream} autoPlay muted playsInline></video>
       <video ref={remoteStream} autoPlay></video>
       <button>Создать комнату</button>
