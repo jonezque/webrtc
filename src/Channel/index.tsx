@@ -79,7 +79,6 @@ export const Channel = () => {
       </button>
       <video ref={localStream} muted playsInline></video>
       <video ref={remoteStream} playsInline></video>
-      <button>Создать комнату</button>
     </div>
   );
 };
