@@ -42,7 +42,7 @@ export const Channel = () => {
 
   useEffect(() => {
     navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
+      .getUserMedia({ video: true, audio: { echoCancellation: true, noiseSuppression: true } })
       .then((stream) => {
         localStream.current!.srcObject = stream;
         remoteStream.current!.srcObject = remote;
