@@ -9,7 +9,16 @@ import {
   processCandidates,
 } from "../init";
 
-const onClickHandler = () => {};
+const audio = {
+  echoCancellation: true,
+  noiseSuppression: true,
+  googNoiseSuppression: true,
+  googNoiseSuppression2: true,
+  autoGainControl: true,
+  googAutoGainControl: true,
+  googAutoGainControl2: true,
+  googHighpassFilter: true,
+} as any
 
 export const Channel = () => {
   const { id } = useParams();
@@ -42,10 +51,13 @@ export const Channel = () => {
 
   useEffect(() => {
     navigator.mediaDevices
-      .getUserMedia({ video: true, audio: { echoCancellation: true, noiseSuppression: true, } })
+      .getUserMedia({ video: true, audio })
       .then((stream) => {
         localStream.current!.srcObject = stream;
+        localStream.current!.muted = true;
+        localStream.current!.volume = 0;
         remoteStream.current!.srcObject = remote;
+        remoteStream.current!.volume = 0.9;
 
         const init = () =>
           setTimeout(() => {
@@ -65,8 +77,8 @@ export const Channel = () => {
       >
         <b>{window.location.href}</b> - поделиться линком
       </button>
-      <video ref={localStream} autoPlay muted playsInline></video>
-      <video ref={remoteStream} autoPlay></video>
+      <video ref={localStream} muted playsInline></video>
+      <video ref={remoteStream} playsInline></video>
       <button>Создать комнату</button>
     </div>
   );
