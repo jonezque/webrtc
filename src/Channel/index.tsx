@@ -77,8 +77,8 @@ export const Channel = () => {
       >
         <b>{window.location.href}</b> - поделиться линком
       </button>
-      <video ref={localStream} muted playsInline></video>
-      <video ref={remoteStream} playsInline></video>
+      <video ref={localStream} muted playsInline autoPlay></video>
+      <video ref={remoteStream} playsInline autoPlay></video>
     </div>
   );
 };
