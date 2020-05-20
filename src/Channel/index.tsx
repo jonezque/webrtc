@@ -46,7 +46,7 @@ export const Channel = () => {
         localStream.current!.muted = true;
         localStream.current!.volume = 0;
         remoteStream.current!.srcObject = remote;
-        remoteStream.current!.volume = 0;
+        remoteStream.current!.volume = 0.2;
         remoteStream.current!.muted = true;
 
         const init = () =>
