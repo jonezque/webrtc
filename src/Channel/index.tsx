@@ -40,7 +40,7 @@ export const Channel = () => {
 
   useEffect(() => {
     navigator.mediaDevices
-      .getUserMedia({ video: true, audio: { sampleRate: 44000, echoCancellation: true, noiseSuppression: true, autoGainControl: true,  } })
+      .getUserMedia({ video: true, audio: { sampleRate: 48000, echoCancellation: false, noiseSuppression: false, autoGainControl: true,  } })
       .then((stream) => {
         localStream.current!.srcObject = stream;
         localStream.current!.muted = true;
